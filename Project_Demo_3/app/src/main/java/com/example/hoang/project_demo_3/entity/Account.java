@@ -1,16 +1,15 @@
 package com.example.hoang.project_demo_3.entity;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Account {
-    @SerializedName("phone")
     private String phone;
     private String password;
     private String fullname;
     private String avatar;
     private String email;
     private String salt;
+    private String role;
     private String status;
+    private String gender;
     private String created_At;
     private String updated_At;
 
@@ -22,11 +21,13 @@ public class Account {
         this.password = password;
     }
 
-    public Account(String phone, String password, String fullname, String email) {
+    public Account(String phone, String password, String salt,String fullname, String email, String gender) {
         this.phone = phone;
         this.password = password;
+        this.salt = salt;
         this.fullname = fullname;
         this.email = email;
+        this.gender = gender;
     }
 
 
@@ -78,12 +79,28 @@ public class Account {
         this.salt = salt;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getCreated_At() {

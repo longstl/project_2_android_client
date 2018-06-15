@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hoang.project_demo_3.R;
-import com.example.hoang.project_demo_3.utility.Interface.ItemClickListener;
+import com.example.hoang.project_demo_3.utilities.Interface.ItemClickListener;
 
 public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 

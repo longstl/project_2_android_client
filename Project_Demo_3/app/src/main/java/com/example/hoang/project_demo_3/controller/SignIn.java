@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.hoang.project_demo_3.entity.Account;
+import com.example.hoang.project_demo_3.utilities.hash.PasswordUtility;
 import com.google.gson.Gson;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.example.hoang.project_demo_3.R;
@@ -45,6 +46,7 @@ public class SignIn extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                PasswordUtility passwordUtility = new PasswordUtility();
                 final ProgressDialog mDialog = new ProgressDialog(SignIn.this);
 
                 Editable phone = editPhone.getText();
@@ -55,11 +57,15 @@ public class SignIn extends AppCompatActivity {
                     Account getAccount = new Gson().fromJson(account, Account.class);
                     Account inputAccount = new Account(phone.toString(),password.toString());
 
-                    if (!inputAccount.getPhone().equals(getAccount.getPhone()) || !inputAccount.getPassword().equals(getAccount.getPassword())){
+                    String salt = getAccount.getSalt();
+                    String passBeforEncrypt = inputAccount.getPassword() + salt;
+                    String passEncrypt = passwordUtility.md5(passBeforEncrypt);
+
+                    if (!inputAccount.getPhone().equals(getAccount.getPhone()) || !passEncrypt.equals(getAccount.getPassword())){
                         mDialog.setMessage("In correct information");
                         mDialog.show();
                         finish();
-                    }else if (inputAccount.getPhone().equals(getAccount.getPhone()) && inputAccount.getPassword().equals(getAccount.getPassword())) {
+                    }else if (inputAccount.getPhone().equals(getAccount.getPhone()) && passEncrypt.equals(getAccount.getPassword())) {
                         mDialog.setMessage("Please waiting....");
                         mDialog.show();
                         Intent homeIntent = new Intent(SignIn.this, Home.class);

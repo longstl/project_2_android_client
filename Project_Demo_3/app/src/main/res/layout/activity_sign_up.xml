@@ -36,14 +36,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:hint="Name"
+            android:hint="Full Name"
             android:inputType="textPersonName"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
             android:textSize="20sp"
             app:met_baseColor="@android:color/white"
             app:met_floatingLabel="highlight"
-            app:met_maxCharacters="20"
             app:met_primaryColor="@android:color/white"
             app:met_singleLineEllipsis="true" />
 
@@ -59,7 +58,6 @@
             android:textSize="20sp"
             app:met_baseColor="@android:color/white"
             app:met_floatingLabel="highlight"
-            app:met_maxCharacters="30"
             app:met_primaryColor="@android:color/white"
             app:met_singleLineEllipsis="true" />
 
@@ -92,6 +90,54 @@
             app:met_floatingLabel="highlight"
             app:met_primaryColor="@android:color/white"
             app:met_singleLineEllipsis="true" />
+
+        <RadioGroup
+            android:id="@+id/groupGender"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_margin="8dp"
+            android:layout_alignParentBottom="true">
+
+            <RadioButton
+                android:id="@+id/radioMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@android:color/white"
+                android:text="Male"
+                app:met_floatingLabel="highlight"
+                app:met_primaryColor="@android:color/white"
+                app:met_singleLineEllipsis="true"
+                android:layout_marginBottom="8dp"
+                tools:ignore="MissingPrefix" />
+
+            <RadioButton
+                android:id="@+id/radioFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Female"
+                android:textColor="@android:color/white"
+                app:met_floatingLabel="highlight"
+                app:met_primaryColor="@android:color/white"
+                app:met_singleLineEllipsis="true"
+                android:layout_marginBottom="8dp"
+                tools:ignore="MissingPrefix"/>
+
+            <RadioButton
+                android:id="@+id/radioOther"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Other"
+                android:textColor="@android:color/white"
+                app:met_floatingLabel="highlight"
+                app:met_primaryColor="@android:color/white"
+                app:met_singleLineEllipsis="true"
+                android:layout_marginBottom="8dp"
+                tools:ignore="MissingPrefix"/>
+        </RadioGroup>
     </LinearLayout>
 
     <Button
@@ -101,6 +147,7 @@
         android:layout_margin="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
         android:layout_alignParentBottom="true"
         android:shadowColor="@android:color/black"
         android:background="@drawable/custom_button"

@@ -7,6 +7,8 @@ public class Product {
     private String title;
     @SerializedName("description")
     private String description;
+    private String model;
+    private String manufacturer;
     @SerializedName("price")
     private int price;
     @SerializedName("thumbnail")
