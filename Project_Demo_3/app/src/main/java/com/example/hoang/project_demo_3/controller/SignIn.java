@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.example.hoang.project_demo_3.entity.Account;
 import com.example.hoang.project_demo_3.utilities.hash.PasswordUtility;
 import com.google.gson.Gson;
@@ -19,13 +20,12 @@ import org.jsoup.Jsoup;
 
 import java.io.IOException;
 
-
 public class SignIn extends AppCompatActivity {
 
 
     MaterialEditText editPhone, editPassword;
     Button btnSignIn;
-
+    AwesomeValidation validate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -42,7 +42,6 @@ public class SignIn extends AppCompatActivity {
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
 
         //get API in here. Or get DB in here.
-
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,6 +50,7 @@ public class SignIn extends AppCompatActivity {
 
                 Editable phone = editPhone.getText();
                 Editable password = editPassword.getText();
+
                 try {
                     String url = "https://daokhanh-201004.appspot.com/_api/v1/account/" + phone.toString();
                     String account = Jsoup.connect(url).ignoreContentType(true).get().body().text();
