@@ -1,17 +1,26 @@
 package com.example.hoang.project_demo_3.entity;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Product {
     @SerializedName("title")
+    @Expose
     private String title;
     @SerializedName("description")
+    @Expose
     private String description;
+    @SerializedName("model")
+    @Expose
     private String model;
+    @SerializedName("menufacturer")
+    @Expose
     private String manufacturer;
     @SerializedName("price")
+    @Expose
     private int price;
     @SerializedName("thumbnail")
+    @Expose
     private String thumbnail;
 
     public Product() {
@@ -54,5 +63,21 @@ public class Product {
 
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
     }
 }

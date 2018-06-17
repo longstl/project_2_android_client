@@ -1,5 +1,6 @@
 package com.example.hoang.project_demo_3.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -18,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hoang.project_demo_3.R;
+import com.example.hoang.project_demo_3.common.Common;
+import com.squareup.picasso.Picasso;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,7 +37,7 @@ public class Home extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("List Goods");
+        toolbar.setTitle("List Category");
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -61,11 +64,11 @@ public class Home extends AppCompatActivity
 
         View headerView = navigationView.getHeaderView(0);
         tv_fullname = (TextView) headerView.findViewById(R.id.tv_fullname);
-        //get name
+        tv_fullname.setText(Common.currentAccount.getFullname());
         tv_email = (TextView) headerView.findViewById(R.id.tv_email);
-        //get email
+        tv_email.setText(Common.currentAccount.getEmail());
         img_avatar = (ImageView) headerView.findViewById(R.id.img_avatar);
-        //get avatar.
+        loadImageFromUrl(Common.currentAccount.getAvatar());
 
         //load menu
         recycler_list_goods = (RecyclerView) findViewById(R.id.recycler_menu);
@@ -76,8 +79,25 @@ public class Home extends AppCompatActivity
         loadMenu();
     }
 
+    private void loadImageFromUrl(String url) {
+        Picasso.get().load(url).resize(100, 100)
+                .placeholder(R.drawable.avatar).error(R.drawable.avatar)
+                .into(img_avatar, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                });
+    }
+
     private void loadMenu() {
         //Call API Get List menu. hashmap Category with menuviewHolder.
+
     }
 
     @Override
@@ -122,6 +142,8 @@ public class Home extends AppCompatActivity
             case R.id.nav_orders:
                 break;
             case R.id.nav_logout:
+                Intent homeIntent = new Intent(Home.this, MainForm.class);
+                startActivity(homeIntent);
                 break;
         }
 
