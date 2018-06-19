@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgound"
+    android:alpha="0.85"
     tools:context=".controller.MainForm">
 
     <LinearLayout
@@ -45,7 +46,7 @@
             android:shadowColor="@android:color/black"
             android:text="Sign Up"
             android:textColor="@android:color/white"
-            android:background="@drawable/custom_button"
+            android:background="@drawable/custom_button2"
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="5"/>
@@ -59,7 +60,7 @@
             android:shadowColor="@android:color/black"
             android:text="Sign In"
             android:textColor="@android:color/white"
-            android:background="@drawable/custom_button"
+            android:background="@drawable/custom_button2"
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="5"/>

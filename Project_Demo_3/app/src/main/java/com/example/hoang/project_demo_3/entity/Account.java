@@ -1,16 +1,41 @@
 package com.example.hoang.project_demo_3.entity;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Account {
+    @SerializedName("phone")
+    @Expose
     private String phone;
+    @SerializedName("password")
+    @Expose
     private String password;
+    @SerializedName("fullname")
+    @Expose
     private String fullname;
+    @SerializedName("avatar")
+    @Expose
     private String avatar;
+    @SerializedName("email")
+    @Expose
     private String email;
+    @SerializedName("salt")
+    @Expose
     private String salt;
+    @SerializedName("role")
+    @Expose
     private String role;
+    @SerializedName("status")
+    @Expose
     private String status;
+    @SerializedName("gender")
+    @Expose
     private String gender;
+    @SerializedName("created_At")
+    @Expose
     private String created_At;
+    @SerializedName("updated_At")
+    @Expose
     private String updated_At;
 
     public Account() {

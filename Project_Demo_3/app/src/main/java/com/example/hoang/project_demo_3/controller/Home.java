@@ -1,5 +1,7 @@
 package com.example.hoang.project_demo_3.controller;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -7,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +19,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hoang.project_demo_3.R;
+import com.example.hoang.project_demo_3.ViewHolder.CategoryRecyclerViewAdapter;
+import com.example.hoang.project_demo_3.common.Common;
+import com.example.hoang.project_demo_3.entity.Category;
+import com.example.hoang.project_demo_3.entity.MyProduct;
+import com.example.hoang.project_demo_3.utilities.network.ApiServices;
+import com.example.hoang.project_demo_3.utilities.network.CategoryServices;
+import com.example.hoang.project_demo_3.utilities.network.ProductService;
+import com.example.hoang.project_demo_3.utilities.retrofit.ApiUtils;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -26,25 +45,21 @@ public class Home extends AppCompatActivity
 
     TextView tv_fullname, tv_email;
     ImageView img_avatar;
-    RecyclerView recycler_list_goods;
+    RecyclerView recycler_list_categories;
     RecyclerView.LayoutManager layoutManager;
+    private ApiServices mService;
+    private ProductService productService;
+    private List<Category> categoryList;
+    private List<MyProduct> productList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("List Goods");
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("List Category");
+        setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -61,23 +76,67 @@ public class Home extends AppCompatActivity
 
         View headerView = navigationView.getHeaderView(0);
         tv_fullname = (TextView) headerView.findViewById(R.id.tv_fullname);
-        //get name
+        tv_fullname.setText(Common.currentAccount.getFullname());
         tv_email = (TextView) headerView.findViewById(R.id.tv_email);
-        //get email
+        tv_email.setText(Common.currentAccount.getEmail());
         img_avatar = (ImageView) headerView.findViewById(R.id.img_avatar);
-        //get avatar.
+        loadImageFromUrl(Common.currentAccount.getAvatar());
 
         //load menu
-        recycler_list_goods = (RecyclerView) findViewById(R.id.recycler_menu);
-        recycler_list_goods.hasFixedSize();
+        recycler_list_categories = (RecyclerView) findViewById(R.id.recycler_menu);
+        recycler_list_categories.hasFixedSize();
         layoutManager = new LinearLayoutManager(this);
-        recycler_list_goods.setLayoutManager(layoutManager);
-
+        recycler_list_categories.setLayoutManager(layoutManager);
         loadMenu();
+    }
+
+    private void loadImageFromUrl(String url) {
+        Picasso.get().load(url).resize(100, 100)
+                .placeholder(R.drawable.avatar).error(R.drawable.avatar)
+                .into(img_avatar, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                });
     }
 
     private void loadMenu() {
         //Call API Get List menu. hashmap Category with menuviewHolder.
+        CategoryServices categoryServices = ApiUtils.getCategoryService();
+        categoryServices.getAllCategory().enqueue(new Callback<List<Category>>() {
+            @Override
+            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(Home.this, "Wait to Connect to Server.", Toast.LENGTH_SHORT).show();
+                    categoryList = response.body();
+                    addToAdapter(categoryList);
+                }else {
+                    Toast.makeText(Home.this, "Failure Connect to Server.", Toast.LENGTH_SHORT).show();
+                    Intent homeIntent = new Intent(Home.this, MainForm.class);
+                    startActivity(homeIntent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Category>> call, Throwable t) {
+                Toast.makeText(Home.this, "Failure Connect to Server.", Toast.LENGTH_SHORT).show();
+                Intent homeIntent = new Intent(Home.this, MainForm.class);
+                startActivity(homeIntent);
+                finish();
+            }
+        });
+    }
+
+    public void addToAdapter(List<Category> list) {
+        CategoryRecyclerViewAdapter adapter = new CategoryRecyclerViewAdapter(this, list);
+        recycler_list_categories.setAdapter(adapter);
     }
 
     @Override
@@ -122,6 +181,8 @@ public class Home extends AppCompatActivity
             case R.id.nav_orders:
                 break;
             case R.id.nav_logout:
+                Intent homeIntent = new Intent(Home.this, MainForm.class);
+                startActivity(homeIntent);
                 break;
         }
 
